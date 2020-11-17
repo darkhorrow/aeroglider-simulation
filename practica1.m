@@ -23,7 +23,7 @@ text(x(round(end/2)), 0, dist2D + " m");
 
 % 3D PLOT
 windAngle = 45;
-elevAngle = 45;
+elevAngle = 50;
 initV = 30;
 dirAngle = 45;
 windV = 30;
