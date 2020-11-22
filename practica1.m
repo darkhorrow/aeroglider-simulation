@@ -44,8 +44,7 @@ minX = 0;
 minY = 0;
 maxZ = 0;
 
-angle = 45;
-%for angle = -180:10:180
+for angle = -180:10:180
     [x, y, z, t] = plane3d(initV, angle, elevAngle, windV, windAngle, 0.01);
     plot3(x, y, z, 'r-.o');
     plot3(x, y, zeros(length(x)));
@@ -57,7 +56,7 @@ angle = 45;
     minY = min([minY, min(y)]);
     
     maxZ = max([maxZ, max(z)]);
-%end
+end
 
 xticks([min(x) max(x)]);
 yticks([min(y) max(y)]);
@@ -74,6 +73,8 @@ quiver3(X,Y,Z,U,V,zeros(size(Z)));
 % coordenadas
 text((maxX + minX)/2, minY, "South");
 text((maxX + minX)/2, maxY, "North");
+text(minX, (maxY + minY)/2, "West");
+text(maxX, (maxY + minY)/2, "East");
 
 
 
