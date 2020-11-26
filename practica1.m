@@ -3,78 +3,57 @@ clc;
 clear;
 clf;
 
-% 2D PLOT
-
-[x, y, t] = plane(10, 30, 0.01);
-
-hold on;
-figure(1);
-
-title('Aeroglider launch')
-xlabel('Distance (m)')
-ylabel('Height (m)')
-
-plot(x, y, 'r-.o');
-yline(0,'LineWidth',3);
-
-dist2D = sqrt((x(1) - x(end))^2 + (y(1) - y(end))^2);
-text(x(round(end/2)), 0, dist2D + " m");
-
-
-% 3D PLOT
-windAngle = 45;
-elevAngle = 50;
+% PARAMETROS 
+elevAngle = 30;
 initV = 30;
 dirAngle = 45;
+
+windAngle = 45; % NE
 windV = 30;
-
-figure(2);
-
-grid on;
-hold on;
-
-title('Aeroglider launch')
-xlabel('X (m)')
-ylabel('Y (m)')
-zlabel('Height (m)')
-
-maxX = 0;
-maxY = 0;
-minX = 0;
-minY = 0;
-maxZ = 0;
-
-for angle = -180:10:180
-    [x, y, z, t] = plane3d(initV, angle, elevAngle, windV, windAngle, 0.01);
-    plot3(x, y, z, 'r-.o');
-    plot3(x, y, zeros(length(x)));
-    
-    maxX = max([maxX, max(x)]);
-    maxY = max([maxY, max(y)]);
-    
-    minX = min([minX, min(x)]);
-    minY = min([minY, min(y)]);
-    
-    maxZ = max([maxZ, max(z)]);
-end
-
-xticks([min(x) max(x)]);
-yticks([min(y) max(y)]);
-
-n_quiver = 5;
+incT = 0.01;
 
 global gamma;
 
-[X,Y,Z] = meshgrid(linspace(minX, maxX, n_quiver), linspace(minY, maxY, n_quiver), linspace(0, maxZ, n_quiver));
-U = cosd(windAngle)*(Z.*gamma);
-V = sind(windAngle)*(Z.*gamma);
-quiver3(X,Y,Z,U,V,zeros(size(Z)));
 
-% coordenadas
-text((maxX + minX)/2, minY, "South");
-text((maxX + minX)/2, maxY, "North");
-text(minX, (maxY + minY)/2, "West");
-text(maxX, (maxY + minY)/2, "East");
+% 2D PLOT
+
+
+
+[x, y, t] = plane(initV, elevAngle, incT);
+
+figure(1);
+hold on;
+aeroglider_plot2d(x, y);
+
+
+% 3D PLOT
+
+figure(2);
+
+hold on;
+grid on;
+
+Xr = [0, 0];
+Yr = [0, 0];
+Zr = [0, 0];
+
+for angle = -180:10:180
+    [x, y, z, t] = plane3d(initV, angle, elevAngle, windV, windAngle, incT);
+    
+    aeroglider_plot_path(x, y, z);
+    
+    Xr(1) = min([Xr(1), min(x)]);
+    Xr(2) = max([Xr(2), max(x)]);
+    
+    Yr(1) = min([Yr(1), min(y)]);
+    Yr(2) = max([Yr(2), max(y)]);
+    
+    Zr(2) = max([Zr(2), max(z)]);
+end
+
+n_quiver = 5;
+
+aeroglider_plot_environment(Xr, Yr, Zr, windAngle, n_quiver);
 
 
 
