@@ -29,7 +29,7 @@ aeroglider_plot_path(x, y, z);
 aeroglider_plot_environment([min(x), max(x)], [min(y), max(y)], [0, max(z)], windAngle, n_quiver);
 title("Aeroglider distance optimization (I)");
 
-% TODO: probar distintos puntos de inicio para obtener óptimo
+% Probar distintos puntos de inicio para obtener óptimo
  % 0; 0; 0 -> resultado = 0.99; 0; 0.99 | Distancia = 0.0000
  % 45; 0; 10 -> resultado = 44.26; 3.24; 49.9836 | Distancia = 218.9695
  % 60; 30; 30 -> resultado = 54.1081; 31.0246; 49.9602 | Distancia = 243.0473
